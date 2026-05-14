@@ -23,3 +23,8 @@ mv src/*.class .
 jar -cfm Launcher.jar manifest.txt *.class
 ```
 Use ```java -jar Launcher.jar <query>``` to run
+
+## Config files
+config files are stored at ```~/.config/cashlaunch/config.json```
+put your custom directories there and it will scan those directories for .desktop files as well
+there is no command to do this for you yet
