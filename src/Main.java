@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,14 +26,35 @@ public class Main {
         in.close();
     }
 
-    public static ArrayList<App> getApps() throws IOException {
-        Path[] dirs = {Path.of("/usr/share/applications"),
-        Path.of("/var/lib/flatpak/exports/share/applications"),
-        Path.of("/home/Camille/.local/share/applications/")};
+    public static HashSet<App> getApps() throws IOException {
+        String xdg = System.getenv("XDG_DATA_DIRS");
+        if (xdg == null) {
+            System.out.println("No directories in $XDG_DATA_DIRS");
+            return new HashSet<>();
+        }
 
-        ArrayList<App> apps = new ArrayList<>();
+        String[] xdgDirs = xdg.split(":");
+        HashSet<Path> dirs = new HashSet<>();
+
+        for (String path : xdgDirs) {
+            dirs.add(Path.of(path, "applications"));
+        }
+
+        dirs.add(
+                Path.of(
+                        System.getProperty("user.home"),
+                        ".local",
+                        "share",
+                        "applications"
+                )
+        );
+
+        HashSet<App> apps = new HashSet<>();
 
         for (Path path : dirs) {
+            if (!Files.exists(path) || !Files.isDirectory(path)) {
+                continue;
+            }
             try (DirectoryStream<Path> stream =
                      Files.newDirectoryStream(path, "*.desktop")) {
 

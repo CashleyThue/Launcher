@@ -1,4 +1,4 @@
-import java.util.List;
+import java.util.HashSet;
 
 public class FuzzySearch {
 
@@ -48,7 +48,7 @@ public class FuzzySearch {
         return score;
     }
 
-    public static App check(String query, List<App> apps) {
+    public static App check(String query, HashSet<App> apps) {
 
         App best = null;
 
