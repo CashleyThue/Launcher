@@ -23,15 +23,12 @@ public class FuzzySearch {
 
                 score += 20;
 
-                // consecutive bonus
                 if (lastMatch == ti - 1) {
                     score += 15;
                 }
 
-                // early match bonus
                 score += Math.max(0, 10 - ti);
 
-                // penalize gaps
                 if (lastMatch != -1) {
                     score -= (ti - lastMatch - 1);
                 }
