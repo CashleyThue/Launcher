@@ -8,7 +8,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class Swing {
-    public static void main() {
+    public static void main() throws IOException {
+        Config config = Json.load();
+
         JFrame window = new JFrame("Searcher");
         JPanel panel = new JPanel();
         JTextField text = new JTextField();
@@ -23,7 +25,7 @@ public class Swing {
 
                     App app = FuzzySearch.check(
                         text.getText(),
-                        Main.getApps()
+                        AppScanner.getApps(config)
                     );
 
                     if (app == null) {
@@ -57,7 +59,7 @@ public class Swing {
         button.addActionListener(e -> {
             App app = null;
             try {
-                app = FuzzySearch.check(text.getText(), Main.getApps());
+                app = FuzzySearch.check(text.getText(), AppScanner.getApps(config));
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
