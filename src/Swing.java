@@ -36,7 +36,7 @@ public class Swing {
                     preview.setText("Launch: " + app.name);
 
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("Label update failed");
                 }
             }
 
@@ -56,12 +56,12 @@ public class Swing {
             }
         });
         
-        button.addActionListener(e -> {
+        button.addActionListener(_ -> {
             App app = null;
             try {
                 app = FuzzySearch.check(text.getText(), AppScanner.getApps(config));
             } catch (IOException e1) {
-                e1.printStackTrace();
+                System.out.println("Searching failed.");
             }
 
             if (app == null) {
@@ -72,15 +72,16 @@ public class Swing {
             try {
                 new ProcessBuilder(app.exec.split(" ")).start();
             } catch (IOException e1) {
-                e1.printStackTrace();
+                System.out.println("Failed to launch.");
             }
+            window.dispose();
         });
 
         text.setPreferredSize(new Dimension(250, 30));
         text.setAlignmentX(JTextField.LEFT_ALIGNMENT);
         text.setBorder(new LineBorder(Color.BLACK, 2));
 
-        window.setSize(400, 125);
+        window.setSize(400, 100);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         panel.add(text);
