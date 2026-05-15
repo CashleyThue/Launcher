@@ -17,9 +17,8 @@ java <path to Main.java> <query>
 ### Compile to jar
 from Launcher:
 ```bash
-javac src/*.java
-mv src/*.class .
-jar -cfm Launcher.jar manifest.txt *.class
+javac -cp "lib/*" -d out src/*.java
+jar -cfm Launcher.jar manifest.txt -C out .
 ```
 Use ```java -jar Launcher.jar <query>``` to run
 
